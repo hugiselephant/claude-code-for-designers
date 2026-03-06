@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/hugiselephant/academy:latest
+    image: ghcr.io/hugiselephant/claude-code-for-designers:latest
     ports:
       - "3000:3000"
     environment:
