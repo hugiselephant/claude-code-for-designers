@@ -69,13 +69,14 @@ export default {
           const { sql } = await import("drizzle-orm");
           const db = getDb();
 
-          // Auto-promote first user as admin
-          const promoted = await db.execute(sql`
+          // Auto-promote first user as admin (runs after adapter inserts)
+          const result = await db.execute(sql`
             UPDATE users SET role = 'admin'
-            WHERE id = ${user.id}
-              AND NOT EXISTS (SELECT 1 FROM users WHERE role = 'admin')
+            WHERE email = ${user.email}
+              AND role = 'student'
+              AND (SELECT count(*) FROM users WHERE role = 'admin') = 0
           `);
-          if ((promoted as { rowCount?: number }).rowCount === 1) {
+          if ((result as { rowCount?: number }).rowCount === 1) {
             console.log(
               `[Auth] Auto-promoted first user ${user.email} as admin`,
             );
