@@ -4,6 +4,12 @@ import createMDX from "@next/mdx";
 const nextConfig: NextConfig = {
   output: "standalone",
   pageExtensions: ["ts", "tsx", "md", "mdx"],
+  images: {
+    remotePatterns: [
+      { hostname: "lh3.googleusercontent.com" },
+      { hostname: "avatars.githubusercontent.com" },
+    ],
+  },
 
   headers: async () => [
     {
