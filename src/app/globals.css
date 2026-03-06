@@ -1,0 +1,42 @@
+@import "./tokens.css";
+
+@layer base {
+  body {
+    background-color: var(--color-canvas-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+}
+
+/* Safe-area top offset for notch / Dynamic Island on mobile */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* CTA brand color */
+.cta-brand {
+  background-color: var(--color-brand);
+}
+.cta-brand:hover {
+  filter: brightness(1.1);
+}
+
+/* Secondary / alternating section bg */
+.section-alt {
+  background-color: var(--color-section-alt);
+}
+
+/* Prevent iOS Safari auto-zoom on input focus (font < 16px triggers it) */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: max(1em, 16px);
+  }
+}
