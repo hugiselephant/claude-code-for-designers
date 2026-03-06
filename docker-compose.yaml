@@ -1,0 +1,44 @@
+services:
+  app:
+    image: ghcr.io/hugiselephant/academy:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://academy:academy@postgres:5432/academy
+      - AUTH_SECRET
+      - AUTH_TRUST_HOST=true
+      - AUTH_GOOGLE_ID
+      - AUTH_GOOGLE_SECRET
+      - AUTH_GITHUB_ID
+      - AUTH_GITHUB_SECRET
+      - NEXT_PUBLIC_APP_URL
+      - STRIPE_SECRET_KEY
+      - STRIPE_WEBHOOK_SECRET
+      - LISTMONK_URL
+      - LISTMONK_USER
+      - LISTMONK_PASSWORD
+      - LISTMONK_LIST_ID
+      - DISCORD_BOT_TOKEN
+      - DISCORD_GUILD_ID
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: academy
+      POSTGRES_PASSWORD: academy
+      POSTGRES_DB: academy
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U academy -d academy"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
